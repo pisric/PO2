@@ -1,8 +1,10 @@
 package it.unive.dais.po2.myjdk;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+// TODO: sistemare le possibili eccezioni NullPointerException
 public class MyLinkedList<T> implements MyList<T> {
 
     @Override
@@ -10,12 +12,21 @@ public class MyLinkedList<T> implements MyList<T> {
         return null;
     }
 
+    // TODO: come esercizio provare a rendere questa classe statica in modo che abbia il suo generic; e poi modificare MyLinkedList opportunamente
     protected class Node {
+        @Nullable
         public T data;
+        @Nullable
         public Node next;
-        public Node(T data, Node next) {
+
+        public Node(@Nullable T data, @NotNull Node next) {
             this.data = data;
             this.next = next;
+        }
+
+        public Node(@Nullable T data) {
+            this.data = data;
+            this.next = null;
         }
     }
 
@@ -27,18 +38,18 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     public void add(T e) {
-        head = new Node(e, head);
+        head = head == null ? new Node(e) : new Node(e, head);
     }
 
     @Override
     public int size() {
         int r = 0;
-        for (Node n = head; n.next != null; ++r);
+        for (@Nullable Node n = head; n.next != null; ++r);
         return r;
     }
 
     @Override
-    public boolean contains(T x) {
+    public boolean contains(@NotNull T x) {
         MyIterator<T> it = iterator();
         while (it.hasNext()) {
             T e = it.next();
@@ -52,10 +63,11 @@ public class MyLinkedList<T> implements MyList<T> {
         head = null;
     }
 
+    @Nullable
     public T get(int pos) throws OutOfBoundsException {
         Node n = head;
         for (; pos > 0; --pos)
-            if ((n = head.next) == null) throw new OutOfBoundsException();
+            if ((n = head.next) == null) throw new OutOfBoundsException("get: invalid position " + pos);
         return n.data;
     }
 
@@ -64,7 +76,7 @@ public class MyLinkedList<T> implements MyList<T> {
         int r = 0;
         Node n = head;
         for (; n.next != null && r < i; ++r);
-        n.next = new Node(x, n.next);   // TODO: da testare
+        n.next = new Node(x, n.next);
     }
 
 
@@ -74,16 +86,16 @@ public class MyLinkedList<T> implements MyList<T> {
         Node n = head;
         for (; n.next != null && r < i - 1; ++r);
         if (n.next != null) {
-            n.next = n.next.next;   // TODO: da testare
+            n.next = n.next.next;
         }
         return true;
     }
 
     @Override
     public boolean remove(T x) {
-        // TODO: da implementare
+        // TODO: da fare per casa
         throw new RuntimeException("not implemented");
     }
-
-
 }
+
+

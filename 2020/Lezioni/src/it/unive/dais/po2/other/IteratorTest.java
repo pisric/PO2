@@ -1,5 +1,7 @@
 package it.unive.dais.po2.other;
 
+import it.unive.dais.po2.myjdk.MyIterator;
+
 import java.util.*;
 
 public class IteratorTest {
@@ -19,7 +21,7 @@ public class IteratorTest {
         System.out.println(r);
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
 
         ArrayList<Integer> a = new ArrayList<>();
         populate(a);
@@ -62,6 +64,29 @@ public class IteratorTest {
             add(2);
             add(123);
         }
+    }
+
+
+
+
+
+    public static void main(String[] args) {
+
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < 10; ++i) {
+            l.add(i);
+        }
+
+        Iterator<Integer> it = l.iterator();
+        while (it.hasNext()) {
+            int n = it.next();
+            System.out.println(n);
+        }
+
+        for (int n : l) {
+            System.out.println(n);
+        }
+
     }
 
 }

@@ -11,4 +11,5 @@ public interface MyCollection<T> extends MyIterable<T> {
     default boolean isEmpty() {
         return size() == 0;
     }
+
 }
